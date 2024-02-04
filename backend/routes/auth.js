@@ -3,6 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const { users } = require("../db");
+const jwt = require("jsonwebtoken");
 
 router.use(express.json());
 
@@ -41,21 +42,31 @@ router.post(
       });
     }
 
-    let hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     users.push({
-        email,
-        password: hashedPassword
-    })
-    
-    console.log(hashedPassword)
+      email,
+      password: hashedPassword,
+    });
 
-    res.send("Validation Passed");
+    console.log(hashedPassword);
+
+    const token = await jwt.sign(
+      {
+        email,
+      },
+      process.env.SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    res.json(token);
   }
 );
 
 router.get("/all", (req, res) => {
-    res.json(users)
-})
+  res.json(users);
+});
 
 module.exports = router;
