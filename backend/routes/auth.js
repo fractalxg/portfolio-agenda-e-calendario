@@ -33,7 +33,7 @@ router.post(
     });
 
     if (user) {
-      res.status(400).json({
+      return res.status(400).json({
         errors: [
           {
             msg: "This users already exists",
@@ -71,7 +71,7 @@ router.post("/login", async (req, res) => {
   });
 
   if (!user) {
-    res.status(400).json({
+    return res.status(400).json({
       errors: [
         {
           msg: "Invalid Credentials",
@@ -83,7 +83,7 @@ router.post("/login", async (req, res) => {
   let isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
-    res.status(400).json({
+    return res.status(400).json({
       errors: [
         {
           msg: "Invalid Credentials",
