@@ -49,8 +49,6 @@ router.post(
       password: hashedPassword,
     });
 
-    console.log(hashedPassword);
-
     const token = await jwt.sign(
       {
         email,
@@ -64,6 +62,48 @@ router.post(
     res.json(token);
   }
 );
+
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  let user = users.find((user) => {
+    return user.email === email;
+  });
+
+  if (!user) {
+    res.status(400).json({
+      errors: [
+        {
+          msg: "Invalid Credentials",
+        },
+      ],
+    });
+  }
+
+  let isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    res.status(400).json({
+      errors: [
+        {
+          msg: "Invalid Credentials",
+        },
+      ],
+    });
+  }
+
+	const token = await jwt.sign(
+		{
+			email,
+		},
+		process.env.SECRET,
+		{
+			expiresIn: "1h",
+		}
+	);
+
+	res.json(token);
+});
 
 router.get("/all", (req, res) => {
   res.json(users);
