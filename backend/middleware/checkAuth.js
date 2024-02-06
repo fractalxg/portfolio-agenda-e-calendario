@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res, next) => {
-  const accessToken = req.header("x-auth-token");
+  const accessToken = req.header("access-token");
 
   if (!accessToken) {
     return res.status(400).json({
@@ -16,7 +16,8 @@ module.exports = async (req, res, next) => {
   try {
     const validToken = jwt.verify(token, process.env.SECRET);
     if (validToken){
-      req.user = user.email;
+      // req.validToken = validToken.email;
+      req.authenticated = true;
       next()
     }
 		
