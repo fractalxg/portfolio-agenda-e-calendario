@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
-module.exports = async (req, res, next) => {
-  const accessToken = req.header("access-token");
+const tokenValidation = async (req, res, next) => {
+  const accessToken = req.header("Authorization");
 
   if (!accessToken) {
     return res.status(400).json({
@@ -31,3 +31,5 @@ module.exports = async (req, res, next) => {
     });
   }
 };
+
+module.exports = tokenValidation
