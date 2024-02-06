@@ -19,7 +19,9 @@ router.post(
     }),
   ],
   async (req, res) => {
+
     const { email, password } = req.body;
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -28,7 +30,7 @@ router.post(
       });
     }
 
-    let user = users.find((user) => {
+    const user = users.find((user) => {
       return user.email === email;
     });
 
@@ -55,7 +57,7 @@ router.post(
       },
       process.env.SECRET,
       {
-        expiresIn: "1h",
+        expiresIn: "1d",
       }
     );
 
@@ -66,11 +68,11 @@ router.post(
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  let user = users.find((user) => {
+  const findUser = users.find((user) => {
     return user.email === email;
   });
 
-  if (!user) {
+  if (!findUser) {
     return res.status(400).json({
       errors: [
         {
@@ -80,9 +82,9 @@ router.post("/login", async (req, res) => {
     });
   }
 
-  let isMatch = await bcrypt.compare(password, user.password);
+  const passwordCompare = await bcrypt.compare(password, findUser.password);
 
-  if (!isMatch) {
+  if (!passwordCompare) {
     return res.status(400).json({
       errors: [
         {
