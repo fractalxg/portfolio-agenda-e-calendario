@@ -5,31 +5,22 @@ const tokenValidation = async (req, res, next) => {
 
   if (!accessToken) {
     return res.status(400).json({
-      errors: [
-        {
-          msg: "No token found",
-        },
-      ],
+      message: "No access token found",
     });
   }
 
   try {
     const validToken = jwt.verify(accessToken, process.env.SECRET);
-    if (validToken){
+    if (validToken) {
       // req.validToken = validToken.email;
       req.authenticated = true;
-      next()
+      next();
     }
-		
   } catch (error) {
     return res.status(400).json({
-      errors: [
-        {
-          msg: "Token invalid",
-        },
-      ],
+      message: "Token invalid",
     });
   }
 };
 
-module.exports = tokenValidation
+module.exports = tokenValidation;
