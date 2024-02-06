@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
   }
 
   try {
-    const validToken = jwt.verify(token, process.env.SECRET);
+    const validToken = jwt.verify(accessToken, process.env.SECRET);
     if (validToken){
       // req.validToken = validToken.email;
       req.authenticated = true;
