@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
   }
 
   try {
-    let user = jwt.verify(token, process.env.SECRET);
+    const user = jwt.verify(token, process.env.SECRET);
 		req.user = user.email;
 		next()
   } catch (error) {
