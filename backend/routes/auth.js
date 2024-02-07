@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const { users } = require("../db");
-const jwt = require("jsonwebtoken");
+const {createToken} = require("../middleware/checkAuth")
 
 router.use(express.json());
 
@@ -26,17 +26,9 @@ router.post("/signup", async (req, res) => {
     password: hashedPassword,
   });
 
-  const signUpAccessToken = jwt.sign(
-    {
-      email,
-    },
-    process.env.SECRET,
-    {
-      expiresIn: "1d",
-    }
-  );
-
-  res.json(signUpAccessToken);
+  return res.json({
+    message: "Account created",
+  });
 });
 
 router.post("/login", async (req, res) => {
@@ -60,17 +52,7 @@ router.post("/login", async (req, res) => {
     });
   }
 
-  const loginAccessToken = jwt.sign(
-    {
-      email,
-    },
-    process.env.SECRET,
-    {
-      expiresIn: "1h",
-    }
-  );
-
-  res.json(loginAccessToken);
+  res.json(createToken(email));
 });
 
 router.get("/all", (req, res) => {
