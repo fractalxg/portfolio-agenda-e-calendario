@@ -8,11 +8,7 @@ router.use(express.json());
 router.post("/signup", async (req, res) => {
   const { login, password } = req.body;
 
-  const findUser = await User.findOne({
-    where: {
-      login: login,
-    },
-  });
+  const findUser = await User.findOne({ where: { login } });
 
   if (findUser) {
     return res.status(400).json({
@@ -21,6 +17,7 @@ router.post("/signup", async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
+
   try {
     const user = await User.create({
       login,
@@ -41,28 +38,28 @@ router.get("/all", async (req, res) => {
   }
 });
 
-router.put("/update/:id", async (req, res) => {
-  const id = req.params.id;
-  try {
-    const [rowsUpdated, [user]] = await User.update(req.body, {
-      returning: true,
-      where: { id },
-    });
-    if (rowsUpdated === 0) {
-      res.status(404).json({ error: "User not found" });
-    } else {
-      res.json(user);
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
+// router.put("/update/:id", async (req, res) => {
+//   const id = req.params.id;
+//   try {
+//     const [rowsUpdated, [user]] = await User.update(req.body, {
+//       returning: true,
+//       where: { id },
+//     });
+//     if (rowsUpdated === 0) {
+//       res.status(404).json({ error: "User not found" });
+//     } else {
+//       res.json(user);
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 router.delete("/delete/:id", async (req, res) => {
   const id = req.params.id;
   try {
-    const deletedCount = await User.destroy({ where: { id } });
-    if (deletedCount === 0) {
+    const deleteUser = await User.destroy({ where: { id } });
+    if (deleteUser === 0) {
       res.status(404).json({ error: "User not found" });
     } else {
       res.status(204).end();

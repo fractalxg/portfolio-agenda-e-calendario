@@ -3,7 +3,7 @@ const {sign, verify} = require("jsonwebtoken");
 const createToken = (payload) => {
   const loginAccessToken = sign(
     {
-      email: payload,
+      login: payload,
     },
     process.env.SECRET,
     {
