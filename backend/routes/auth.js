@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const {createToken} = require("../middleware/checkAuth")
+const {createToken, validateToken} = require("../middleware/checkAuth")
 const { User } = require("../models");
 
 router.use(express.json());
@@ -31,6 +31,10 @@ router.post("/login", async (req, res) => {
   }
 
   res.status(201).json(createToken(login));
+});
+
+router.get("/token-verification", validateToken, (req, res) => {
+  res.send(true)
 });
 
 module.exports = router;

@@ -4,10 +4,7 @@ const server = express();
 require("dotenv").config();
 
 server.use(
-  cors({
-    origin: process.env.LOCAL_HOST,
-    methods: ["GET", "POST"],
-  })
+  cors()
 );
 
 const auth = require("./routes/auth");
