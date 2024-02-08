@@ -11,7 +11,7 @@ server.use(
 );
 
 const auth = require("./routes/auth");
-server.use("/", auth);
+server.use("/auth", auth);
 
 const test = require("./routes/test");
 server.use("/", test);
