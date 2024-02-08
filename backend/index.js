@@ -16,6 +16,9 @@ server.use("/", auth);
 const test = require("./routes/test");
 server.use("/", test);
 
+const user = require("./routes/user");
+server.use("/user", user);
+
 server.listen(process.env.PORT, () => {
     console.log(`Server is running on port: ${process.env.PORT}`);
   });
