@@ -26,7 +26,7 @@ router.post("/signup", async (req, res) => {
     password: hashedPassword,
   });
 
-  return res.json({
+  return res.status(201).json({
     message: "Account created",
   });
 });
@@ -52,7 +52,7 @@ router.post("/login", async (req, res) => {
     });
   }
 
-  res.json(createToken(email));
+  res.status(201).json(createToken(email));
 });
 
 router.get("/all", (req, res) => {
