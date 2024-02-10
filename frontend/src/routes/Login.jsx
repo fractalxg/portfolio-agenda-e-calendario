@@ -5,23 +5,46 @@ import Home from "./Home";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [accessToken, setAccessToken] = useState();
+  const [message, setMessage] = useState("");
   const [isLogged, setIsLogged] = useState(false);
 
   const userLogin = async () => {
-    try {
-      const response = await axios.post(import.meta.env.VITE_LOGIN, {
-        login: username,
-        password: password,
-      });
+    if (validateUsername() && validatePassword()) {
+      try {
+        const response = await axios.post(import.meta.env.VITE_LOGIN, {
+          login: username,
+          password: password,
+        });
+  
+        setAccessToken(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+  };
 
-      setAccessToken(response.data);
-    } catch (error) {
-      console.log(error);
+  const validateUsername = () => {
+    if (username.length > 0) {
+      return true;
+    } else {
+      setMessage("Username is required");
+      return false;
     }
   };
+  const validatePassword = () => {
+    if (
+      password.length > 0 
+    ) {
+      return true;
+    } else {
+      setMessage("Password is required");
+      return false;
+    }
+  }
 
   useEffect(() => {
     accessToken ? setIsLogged(true) : setIsLogged(false);
@@ -31,26 +54,41 @@ const Login = () => {
     <div className="login-container">
       {!isLogged && (
         <div className="login-content">
-          <label>Username:</label>
-          <input
-            type="text"
-            onChange={(e) => setUsername(e.target.value)}
-          ></input>
+          <div className="login-content-title">
+            <label>Meetings</label>
+          </div>
+          <div className="login-content-username">
+            
+            <input
+              type="text"
+              placeholder="Username"
+              onChange={(e) => setUsername(e.target.value)}
+            ></input>
+          </div>
 
-          <label>Password:</label>
-          <input
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-          ></input>
+          <div className="login-content-password">
+            
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            ></input>
+          </div>
 
-          <label>
-            Don't have an account?{" "}
-            <span>
-              <Link to="/signup">Signup</Link>
-            </span>
-          </label>
+          <div className="login-content-message">
+          {message}
+          </div>
+          
+          <button onClick={() => userLogin()}>LOGIN</button>
 
-          <button onClick={() => userLogin()}>Login</button>
+          <div className="login-content-signup">
+            <label>
+              Don't have an account?{" "}
+              <span>
+                <Link to="/signup">Signup</Link>
+              </span>
+            </label>
+          </div>
         </div>
       )}
       {accessToken && <Home accessToken={accessToken} />}

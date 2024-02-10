@@ -1,4 +1,61 @@
 .login-content{
     display: grid;
     width: 300px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.25));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border:1px solid rgba(255, 255, 255, 0.18);
+    padding: 30px;
+}
+
+.login-content-title{
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    color: #fff;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+.login-content-username{
+    display: grid;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+    
+}
+
+.login-content-password{
+    display: grid;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+    padding-top: 20px;
+}
+
+.login-content-message{
+    display: flex;
+    height: 14px;
+    font-size: 14px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+}
+
+.login-content-signup{
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+    padding-top: 30px;
+}
+
+input{
+    height: 30px;
+}
+
+button{
+    height: 50px;
+    cursor: pointer;
+    background-color: #fff;
+    border: none;
+    box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
 }
