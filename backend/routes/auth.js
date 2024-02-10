@@ -1,49 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const { users } = require("../db");
-const jwt = require("jsonwebtoken");
+const {createToken, validateToken} = require("../middleware/checkAuth")
+const { User } = require("../models");
 
 router.use(express.json());
 
-router.post("/signup", async (req, res) => {
-  const { email, password } = req.body;
-
-  const user = users.find((user) => {
-    return user.email === email;
-  });
-
-  if (user) {
-    return res.status(400).json({
-      message: "This user already exists",
-    });
-  }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  users.push({
-    email,
-    password: hashedPassword,
-  });
-
-  const signUpAccessToken = jwt.sign(
-    {
-      email,
-    },
-    process.env.SECRET,
-    {
-      expiresIn: "1d",
-    }
-  );
-
-  res.json(signUpAccessToken);
-});
-
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
 
-  const findUser = users.find((user) => {
-    return user.email === email;
+  const { login, password } = req.body;
+
+  const findUser = await User.findOne({
+    where: {
+      login: login,
+    },
   });
 
   if (!findUser) {
@@ -60,21 +30,11 @@ router.post("/login", async (req, res) => {
     });
   }
 
-  const loginAccessToken = jwt.sign(
-    {
-      email,
-    },
-    process.env.SECRET,
-    {
-      expiresIn: "1h",
-    }
-  );
-
-  res.json(loginAccessToken);
+  res.status(201).json(createToken(login));
 });
 
-router.get("/all", (req, res) => {
-  res.json(users);
+router.get("/token-verification", validateToken, (req, res) => {
+  res.status(201).send(true)
 });
 
 module.exports = router;

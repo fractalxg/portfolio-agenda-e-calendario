@@ -1,6 +1,20 @@
-const jwt = require("jsonwebtoken");
+const {sign, verify} = require("jsonwebtoken");
 
-const tokenValidation = async (req, res, next) => {
+const createToken = (payload) => {
+  const loginAccessToken = sign(
+    {
+      login: payload,
+    },
+    process.env.SECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
+
+  return loginAccessToken;
+}
+
+const validateToken = (req, res, next) => {
   const accessToken = req.header("Authorization");
 
   if (!accessToken) {
@@ -10,7 +24,7 @@ const tokenValidation = async (req, res, next) => {
   }
 
   try {
-    const validToken = jwt.verify(accessToken, process.env.SECRET);
+    const validToken = verify(accessToken, process.env.SECRET);
     if (validToken) {
       // req.validToken = validToken.email;
       req.authenticated = true;
@@ -18,9 +32,9 @@ const tokenValidation = async (req, res, next) => {
     }
   } catch (error) {
     return res.status(400).json({
-      message: "Token invalid",
+      message: "Invalid Token",
     });
   }
 };
 
-module.exports = tokenValidation;
+module.exports = {createToken, validateToken};

@@ -1,10 +1,12 @@
 import './App.css'
+import Login from './routes/Login'
+
 
 function App() {
 
   return (
     <>
-      <h1>Teste</h1>
+    <Login />
     </>
   )
 }
