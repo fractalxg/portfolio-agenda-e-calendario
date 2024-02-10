@@ -23,6 +23,7 @@ const Signup = () => {
     } else;
     console.log(false);
   };
+  
   const validateUsername = () => {
     if (username.length > 0) {
       return true;
