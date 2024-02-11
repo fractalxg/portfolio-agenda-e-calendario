@@ -77,7 +77,7 @@ const Login = () => {
 
             <div className="login-content-message">{message}</div>
 
-            <button onClick={() => userLogin()}>LOGIN</button>
+            <button onClick={() => userLogin()}>Login</button>
 
             <div className="login-content-signup">
               <label>
