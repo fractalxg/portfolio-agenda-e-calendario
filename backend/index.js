@@ -10,9 +10,6 @@ server.use(
 const auth = require("./routes/auth");
 server.use("/auth", auth);
 
-const test = require("./routes/test");
-server.use("/", test);
-
 const user = require("./routes/user");
 server.use("/user", user);
 
