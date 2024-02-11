@@ -64,7 +64,17 @@
 }
 
 .signup-container input{
-    height: 30px;
+    height: 50px;
+    border: none;
+    padding-left: 10px;
+}
+
+.signup-container input:focus{
+    outline: none;
+}
+
+.signup-container input:focus::placeholder{
+    color: transparent;
 }
 
 .signup-container button{
