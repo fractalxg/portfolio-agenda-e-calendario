@@ -3,16 +3,16 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 const Home = ({ accessToken }) => {
-	const [isLogged, setIsLogged] = useState(false)
+  const [isLogged, setIsLogged] = useState(false);
 
   const tokenValidation = async (token) => {
     const headers = {
-      "Authorization": token,
+      Authorization: token,
       "Content-Type": "application/json",
     };
     try {
       const response = await axios.get(import.meta.env.VITE_LOGIN_TOKEN_AUTH, {
-        headers
+        headers,
       });
 
       setIsLogged(response.data);
@@ -25,11 +25,7 @@ const Home = ({ accessToken }) => {
     tokenValidation(accessToken);
   }, [accessToken]);
 
-  return (
-    <div>
-      {isLogged && <div className="teste">teste</div>}
-    </div>
-  );
+  return <div>{isLogged && <div className="teste">teste</div>}</div>;
 };
 
 export default Home;

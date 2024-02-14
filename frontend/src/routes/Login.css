@@ -1,3 +1,11 @@
+.login-container{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
 .login-content{
     display: grid;
     width: 300px;
@@ -7,6 +15,7 @@
     border-radius: 20px;
     border:1px solid rgba(255, 255, 255, 0.18);
     padding: 30px;
+    
 }
 
 .login-content-title{
@@ -48,14 +57,26 @@
     padding-top: 30px;
 }
 
-input{
-    height: 30px;
+.login-container input{
+    height: 50px;
+    border: none;
+    padding-left: 10px;
 }
 
-button{
+.login-container input:focus{
+    outline: none;
+}
+
+.login-container input:focus::placeholder{
+    color: transparent;
+}
+
+.login-container button{
     height: 50px;
     cursor: pointer;
     background-color: #fff;
     border: none;
     box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
 }
+
+

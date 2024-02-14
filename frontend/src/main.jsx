@@ -4,13 +4,13 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './routes/Login.jsx'
 import Signup from './routes/Signup.jsx'
-import BubbleGradient from './components/BubbleGradient.jsx'
+
 
 const router = createBrowserRouter([
   {
     path: '/',
     // element: <Login />,
-    element: <BubbleGradient children={<Login />}/>,
+    element: <Login />,
     errorElement: <Login />
   },
   {

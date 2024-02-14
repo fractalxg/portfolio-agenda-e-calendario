@@ -2,6 +2,7 @@ import "./Signup.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import BubbleGradient from "../components/BubbleGradient";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -23,7 +24,7 @@ const Signup = () => {
     } else;
     console.log(false);
   };
-  
+
   const validateUsername = () => {
     if (username.length > 0) {
       return true;
@@ -45,37 +46,50 @@ const Signup = () => {
     }
   };
   return (
-    <div className="signup-container">
-      <div className="signup-content">
-        <label>Username:</label>
-        <input
-          type="text"
-          onChange={(e) => setUsername(e.target.value)}
-        ></input>
+    <BubbleGradient>
+      <div className="signup-container">
+        <div className="signup-content">
+          <div className="signup-content-title">
+            <label>Signup</label>
+          </div>
+          <div className="signup-content-username">
+            <input
+              type="text"
+              placeholder="Username"
+              onChange={(e) => setUsername(e.target.value)}
+            ></input>
+          </div>
 
-        <label>Password:</label>
-        <input
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-        ></input>
+          <div className="signup-content-password">
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            ></input>
+          </div>
 
-        <label>Confirm password:</label>
-        <input
-          type="password"
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        ></input>
-        {message}
+          <div className="signup-content-confirm-password">
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            ></input>
+          </div>
+          <div className="signup-content-message">{message}</div>
 
-        <label>
-          Already have an account?{" "}
-          <span>
-            <Link to="/">Login</Link>
-          </span>
-        </label>
+          <button onClick={() => userSignup()}>Signup</button>
 
-        <button onClick={() => userSignup()}>Signup</button>
+          <div className="signup-content-login">
+            <label>
+              Already have an account?{" "}
+              <span>
+                <Link to="/">Login</Link>
+              </span>
+            </label>
+          </div>
+        </div>
       </div>
-    </div>
+    </BubbleGradient>
   );
 };
 
