@@ -9,7 +9,7 @@ server.use(cors());
 
 const io = require("socket.io")(socketServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.LOCAL_HOST,
     methods: ["GET", "POST"],
   },
 });
