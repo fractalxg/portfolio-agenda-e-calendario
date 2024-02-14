@@ -1,4 +1,4 @@
-const {sign, verify} = require("jsonwebtoken");
+const { sign, verify } = require("jsonwebtoken");
 
 const createToken = (payload) => {
   const loginAccessToken = sign(
@@ -11,8 +11,13 @@ const createToken = (payload) => {
     }
   );
 
-  return loginAccessToken;
-}
+  return `Bearer ${loginAccessToken}`;
+};
+
+const bearerToken = (value) => {
+  const bearerToken = value.split(" ");
+  return bearerToken[1];
+};
 
 const validateToken = (req, res, next) => {
   const accessToken = req.header("Authorization");
@@ -24,17 +29,13 @@ const validateToken = (req, res, next) => {
   }
 
   try {
-    const validToken = verify(accessToken, process.env.SECRET);
+    const validToken = verify(bearerToken(accessToken), process.env.SECRET);
     if (validToken) {
-      // req.validToken = validToken.email;
-      req.authenticated = true;
       next();
-    }
+    } else return res.send(false);
   } catch (error) {
-    return res.status(400).json({
-      message: "Invalid Token",
-    });
+    return res.send(false);
   }
 };
 
-module.exports = {createToken, validateToken};
+module.exports = { createToken, validateToken };
