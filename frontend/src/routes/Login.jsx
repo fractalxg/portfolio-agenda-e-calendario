@@ -1,7 +1,7 @@
 import "./Login.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Home from "./Home";
+import Home from "../components/Home";
 import { Link } from "react-router-dom";
 import BubbleGradient from "../components/BubbleGradient.jsx";
 
@@ -91,7 +91,7 @@ const Login = () => {
             </div>
           </div>
         )}
-        {accessToken && <Home accessToken={accessToken} />}
+        {accessToken && <Home accessToken={accessToken} username={username}/>}
       </div>
     </BubbleGradient>
   );

@@ -21,10 +21,16 @@ const user = require("./routes/user");
 server.use("/user", user);
 
 io.on("connection", (socket) => {
-  socket.emit("me", socket.id);
+  console.log(`User Connected: ${socket.id}`);
+  
+
+  socket.on("userData", () => {
+    socket.emit("userData", { userId: socket.id });
+  });
 
   socket.on("disconnect", () => {
     socket.broadcast.emit("callEnded");
+    console.log("User Disconnected", socket.id);
   });
 
   socket.on("callUser", (data) => {
