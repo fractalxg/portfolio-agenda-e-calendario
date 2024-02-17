@@ -1,5 +1,8 @@
 import "./Meeting.css";
 import { useEffect, useRef, useState } from "react";
+import { IoCopyOutline } from "react-icons/io5";
+import { IoCallSharp } from "react-icons/io5";
+import { FiPhoneCall } from "react-icons/fi";
 
 import Peer from "peerjs";
 import io from "socket.io-client";
@@ -7,7 +10,7 @@ import io from "socket.io-client";
 const socket = io.connect(import.meta.env.VITE_SOCKET_SERVER);
 
 const Meeting = ({ username, setUsername }) => {
-  const [me, setMe] = useState("");
+  const [userId, setUserId] = useState("");
   const [stream, setStream] = useState();
   const [receivingCall, setReceivingCall] = useState(false);
   const [caller, setCaller] = useState("");
@@ -33,7 +36,7 @@ const Meeting = ({ username, setUsername }) => {
       });
 
     socket.on("userData", (data) => {
-      setMe(data.userId);
+      setUserId(data.userId);
     });
 
     socket.on("callUser", (data) => {
@@ -54,11 +57,10 @@ const Meeting = ({ username, setUsername }) => {
     });
 
     peer.on("open", (data) => {
-      console.log("My signal ID is: " + data);
       socket.emit("callUser", {
         userToCall: id,
         signalData: data,
-        from: me,
+        from: userId,
         name: name,
       });
     });
@@ -114,57 +116,54 @@ const Meeting = ({ username, setUsername }) => {
 
   return (
     <div className="meeting-container">
-      <div className="video-container">
-        <div className="video">
-          {stream && (
-            <video
-              playsInline
-              muted
-              ref={myVideo}
-              autoPlay
-              style={{ width: "300px" }}
-            />
-          )}
+      <div className="meeting-video-container">
+        <div className="meeting-video-content">
+          {stream && <video playsInline muted ref={myVideo} autoPlay />}
         </div>
-        <div className="video">
+        <div className="meeting-video-content">
           {callAccepted && !callEnded ? (
-            <video
-              playsInline
-              ref={userVideo}
-              autoPlay
-              style={{ width: "300px" }}
-            />
+            <video playsInline ref={userVideo} autoPlay />
           ) : null}
         </div>
       </div>
-      <div className="myId">
-        <button onClick={() => copyToClipboard(me)}>copiar id</button>
-
-        <input
-          id="filled-basic"
-          placeholder="ID to call"
-          value={idToCall}
-          onChange={(e) => setIdToCall(e.target.value)}
-        />
-        <div className="call-button">
-          {callAccepted && !callEnded ? (
-            <button onClick={leaveCall}>End Call</button>
-          ) : (
-            <button onClick={() => callUser(idToCall)}>ligar</button>
-          )}
-          {idToCall}
+      <div className="meeting-id-container">
+        <div className="meeting-id-content">
+          <label>Your Meeting ID: {userId}</label>
+          <IoCopyOutline
+            className="meeting-id-icon"
+            onClick={() => copyToClipboard(userId)}
+          />
         </div>
-      </div>
-      <div>
-        {receivingCall && !callAccepted ? (
-          <div className="caller">
-            <h1>{username} is calling...</h1>
-            <button variant="contained" color="primary" onClick={answerCall}>
-              Answer
-            </button>
+
+        <div className="meeting-call-id-content">
+          <input
+            id="filled-basic"
+            placeholder="Paste the Meeting ID to call"
+            value={idToCall}
+            onChange={(e) => setIdToCall(e.target.value)}
+          />
+          <div className="call-button">
+            {callAccepted && !callEnded ? (
+              <button onClick={leaveCall}>End Call</button>
+            ) : (
+              <IoCallSharp
+                className="meeting-call-id-icon"
+                onClick={() => callUser(idToCall)}
+              />
+            )}
           </div>
-        ) : null}
+        </div>
+        {receivingCall && !callAccepted ? ( <div className="meeting-id-caller-content">
+        
+
+            <label>{username} is calling...</label>
+            <FiPhoneCall className="meeting-id-caller-icon" onClick={answerCall}/>
+
+        
+      </div> ) : null}
       </div>
+      
+      <div></div>
     </div>
   );
 };
