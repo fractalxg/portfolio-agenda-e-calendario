@@ -22,7 +22,6 @@ server.use("/user", user);
 
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
-  
 
   socket.on("userData", () => {
     socket.emit("userData", { userId: socket.id });
@@ -37,12 +36,14 @@ io.on("connection", (socket) => {
     io.to(data.userToCall).emit("callUser", {
       signal: data.signalData,
       from: data.from,
-      name: data.name,
+      //name: data.name,
+      
     });
+    
   });
 
   socket.on("answerCall", (data) => {
-    io.to(data.to).emit("callAccepted", data.signal);
+    io.to(data.to).emit("answerCall", data.signal);
   });
 });
 

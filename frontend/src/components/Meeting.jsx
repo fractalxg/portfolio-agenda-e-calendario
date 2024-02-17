@@ -1,7 +1,7 @@
 import "./Meeting.css";
 import { useEffect, useRef, useState } from "react";
 
-import Peer from "simple-peer";
+import Peer from "peerjs";
 import io from "socket.io-client";
 
 const socket = io.connect(import.meta.env.VITE_SOCKET_SERVER);
@@ -21,7 +21,7 @@ const Meeting = ({ username, setUsername }) => {
   const connectionRef = useRef();
 
   useEffect(() => {
-   socket.emit("userData");
+    socket.emit("userData");
   });
 
   useEffect(() => {
@@ -39,11 +39,17 @@ const Meeting = ({ username, setUsername }) => {
     socket.on("callUser", (data) => {
       setReceivingCall(true);
       setCaller(data.from);
-      setUsername(data.name);
+      //setUsername(data.name);
       setCallerSignal(data.signal);
     });
-
   }, []);
+
+  useEffect(() => {
+    console.log("My Socket ID: " + me);
+    console.log("Socket ID Caller: " + caller);
+    console.log("Peer Caller Signal: " + callerSignal);
+    console.log("Receiving Call ID: " + receivingCall);
+  });
 
   const callUser = (id) => {
     console.log("Calling user:", id);
@@ -54,40 +60,26 @@ const Meeting = ({ username, setUsername }) => {
       stream: stream,
     });
 
-    peer.on("open", (id) => {
-      console.log("Peer ID:", id);
-    });
-
-    peer.on("connect", () => {
-      console.log("Connected to peer!");
-    });
-
-    peer.on("signal", (data) => {
-      console.log("Signal data:", data);
+    peer.on("open", (data) => {
+      console.log("My signal ID is: " + data);
       socket.emit("callUser", {
         userToCall: id,
         signalData: data,
         from: me,
-        name: username,
+        name: name,
       });
-      console.log("CallUser parameters:", id, me, username);
     });
 
-    console.log("Peer initialized:", peer);
-
-    peer.on("stream", (stream) => {
-      userVideo.current.srcObject = stream;
-      console.log("Stream:", stream);
-    });
-
-    peer.on("error", (err) => {
-      console.error("Peer error:", err);
-    });
-
-    socket.on("callAccepted", (signal) => {
-      console.log("Call accepted signal:", signal);
+    socket.on("answerCall", (signal) => {
+      console.log("My caller ID is: " + signal);
       setCallAccepted(true);
-      peer.signal(signal);
+
+      const call = peer.call(signal, stream);
+
+      call.on("stream", (stream) => {
+        console.log("My stream ID is: " + stream);
+        userVideo.current.srcObject = stream;
+      });
     });
 
     connectionRef.current = peer;
@@ -102,15 +94,22 @@ const Meeting = ({ username, setUsername }) => {
       stream: stream,
     });
 
-    peer.on("signal", (data) => {
+    peer.on("open", (data) => {
+      console.log("My peer ID is: " + data);
       socket.emit("answerCall", { signal: data, to: caller });
     });
 
-    peer.on("stream", (stream) => {
-      userVideo.current.srcObject = stream;
+    // peer.on("stream", (stream) => {
+    //   userVideo.current.srcObject = stream;
+    // });
+
+    peer.on("call", (call) => {
+      console.log("My call ID is: " + call);
+      // Answer the call, providing our mediaStream
+      //userVideo.current.srcObject = call
+      call.answer(stream);
     });
 
-    peer.signal(callerSignal);
     connectionRef.current = peer;
   };
 
