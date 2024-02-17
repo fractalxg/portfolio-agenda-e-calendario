@@ -1,8 +1,9 @@
 import "./Home.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Meeting from "./Meeting";
 
-const Home = ({ accessToken }) => {
+const Home = ({ accessToken, username }) => {
   const [isLogged, setIsLogged] = useState(false);
 
   const tokenValidation = async (token) => {
@@ -25,7 +26,7 @@ const Home = ({ accessToken }) => {
     tokenValidation(accessToken);
   }, [accessToken]);
 
-  return <div>{isLogged && <div className="teste">teste</div>}</div>;
+  return <div> { isLogged && <Meeting username={username}/> } </div>;
 };
 
 export default Home;
