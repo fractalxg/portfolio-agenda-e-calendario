@@ -44,13 +44,6 @@ const Meeting = ({ username, setUsername }) => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log("My Socket ID: " + me);
-    console.log("Socket ID Caller: " + caller);
-    console.log("Peer Caller Signal: " + callerSignal);
-    console.log("Receiving Call ID: " + receivingCall);
-  });
-
   const callUser = (id) => {
     console.log("Calling user:", id);
 
@@ -71,13 +64,11 @@ const Meeting = ({ username, setUsername }) => {
     });
 
     socket.on("answerCall", (signal) => {
-      console.log("My caller ID is: " + signal);
       setCallAccepted(true);
 
       const call = peer.call(signal, stream);
 
       call.on("stream", (stream) => {
-        console.log("My stream ID is: " + stream);
         userVideo.current.srcObject = stream;
       });
     });
@@ -95,19 +86,14 @@ const Meeting = ({ username, setUsername }) => {
     });
 
     peer.on("open", (data) => {
-      console.log("My peer ID is: " + data);
       socket.emit("answerCall", { signal: data, to: caller });
     });
 
-    // peer.on("stream", (stream) => {
-    //   userVideo.current.srcObject = stream;
-    // });
-
     peer.on("call", (call) => {
-      console.log("My call ID is: " + call);
-      // Answer the call, providing our mediaStream
-      //userVideo.current.srcObject = call
       call.answer(stream);
+      call.on("stream", (stream) => {
+        userVideo.current.srcObject = stream;
+      });
     });
 
     connectionRef.current = peer;
@@ -152,18 +138,6 @@ const Meeting = ({ username, setUsername }) => {
         </div>
       </div>
       <div className="myId">
-        {/* <input
-          id="filled-basic"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          style={{ marginBottom: "20px" }}
-        /> */}
-        {/* <CopyToClipboard text={me} style={{ marginBottom: "2rem" }}>
-					<Button variant="contained" color="primary" startIcon={<AssignmentIcon fontSize="large" />}>
-						Copy ID
-					</Button>
-				</CopyToClipboard> */}
         <button onClick={() => copyToClipboard(me)}>copiar id</button>
 
         <input
@@ -176,9 +150,7 @@ const Meeting = ({ username, setUsername }) => {
           {callAccepted && !callEnded ? (
             <button onClick={leaveCall}>End Call</button>
           ) : (
-            <button onClick={() => callUser(idToCall)}>
-              ligar{/* <PhoneIcon fontSize="large" /> */}
-            </button>
+            <button onClick={() => callUser(idToCall)}>ligar</button>
           )}
           {idToCall}
         </div>
