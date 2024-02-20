@@ -4,7 +4,7 @@ import axios from "axios";
 import Home from "../components/Home";
 import { Link } from "react-router-dom";
 import BubbleGradient from "../components/BubbleGradient.jsx";
-import Loader from "../components/Loader.jsx"
+import Loader from "../components/Loader.jsx";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -81,11 +81,13 @@ const Login = () => {
             </div>
 
             <div className="login-content-message">
-              {
-              loading === "loading" ? <Loader /> : 
-              loading === "loaded" ? <p>{message}</p> : <p></p>
-              }
-              
+              {loading === "loading" ? (
+                <Loader />
+              ) : loading === "loaded" ? (
+                <p>{message}</p>
+              ) : (
+                <p></p>
+              )}
             </div>
 
             <button onClick={() => userLogin()}>Login</button>

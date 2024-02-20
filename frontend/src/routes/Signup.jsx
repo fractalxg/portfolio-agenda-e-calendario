@@ -82,10 +82,13 @@ const Signup = () => {
             ></input>
           </div>
           <div className="signup-content-message">
-              {
-              loading === "loading" ? <Loader /> : 
-              loading === "loaded" ? <p>{message}</p> : <p></p>
-              }
+            {loading === "loading" ? (
+              <Loader />
+            ) : loading === "loaded" ? (
+              <p>{message}</p>
+            ) : (
+              <p></p>
+            )}
           </div>
 
           <button onClick={() => userSignup()}>Signup</button>
