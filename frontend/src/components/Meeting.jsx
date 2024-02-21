@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { IoCopyOutline } from "react-icons/io5";
 import { IoCallSharp } from "react-icons/io5";
 import { FiPhoneCall } from "react-icons/fi";
+import { MdCallEnd } from "react-icons/md";
+import { BiSolidPhoneCall } from "react-icons/bi";
 
 import Peer from "peerjs";
 import io from "socket.io-client";
@@ -127,7 +129,7 @@ const Meeting = ({ username, setUsername }) => {
         </div>
       </div>
       <div className="meeting-id-container">
-        <div className="meeting-id-content">
+       <div className="meeting-id-content">
           <label>Your Meeting ID: {userId}</label>
           <IoCopyOutline
             className="meeting-id-icon"
@@ -137,14 +139,16 @@ const Meeting = ({ username, setUsername }) => {
 
         <div className="meeting-call-id-content">
           <input
-            id="filled-basic"
             placeholder="Paste the Meeting ID to call"
             value={idToCall}
             onChange={(e) => setIdToCall(e.target.value)}
           />
           <div className="call-button">
             {callAccepted && !callEnded ? (
-              <button onClick={leaveCall}>End Call</button>
+              <MdCallEnd
+                className="meeting-id-end-call-icon"
+                onClick={leaveCall}
+              />
             ) : (
               <IoCallSharp
                 className="meeting-call-id-icon"
@@ -153,17 +157,16 @@ const Meeting = ({ username, setUsername }) => {
             )}
           </div>
         </div>
-        {receivingCall && !callAccepted ? ( <div className="meeting-id-caller-content">
-        
-
+        {receivingCall && !callAccepted ? (
+          <div className="meeting-id-caller-content">
             <label>{username} is calling...</label>
-            <FiPhoneCall className="meeting-id-caller-icon" onClick={answerCall}/>
-
-        
-      </div> ) : null}
+            <BiSolidPhoneCall
+              className="meeting-id-caller-icon"
+              onClick={answerCall}
+            />
+          </div>
+        ) : null}
       </div>
-      
-      <div></div>
     </div>
   );
 };

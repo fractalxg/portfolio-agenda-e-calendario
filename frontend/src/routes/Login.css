@@ -61,6 +61,7 @@
     height: 50px;
     border: none;
     padding-left: 10px;
+    border-radius: 10px;
 }
 
 .login-container input:focus{
@@ -77,6 +78,8 @@
     background-color: #fff;
     border: none;
     box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
+    font-size: 20px;
+    border-radius: 30px;
 }
 
 
