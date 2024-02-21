@@ -5,11 +5,14 @@ Aplicação Web em ReactJS e NodeJS (PostgreSQL, Sequelize, JWT Authentication, 
 
 ## Funcionalidades
 * Live Video/Audio.
-* Live Chat.
 * Autenticação JWT.
 
 ## Screenshots
 
-![meetings-01](https://github.com/fractalxg/portfolio-meetings/assets/147837025/d2ad3bff-5115-4a1e-bb30-1d3ffce59690)
-![meetings-02](https://github.com/fractalxg/portfolio-meetings/assets/147837025/93164549-391f-48ef-8b31-4c93ebf137ae)
-![meeting-03](https://github.com/fractalxg/portfolio-meetings/assets/147837025/f32f6112-39e0-435c-9a30-29a464f58150)
+![meeting-01](https://github.com/fractalxg/portfolio-meetings/assets/147837025/48e73af0-a14f-4c2f-9e7c-fbe309ed3da2)
+![meeting-02](https://github.com/fractalxg/portfolio-meetings/assets/147837025/7f1a26aa-fbcf-40cb-bcd1-e4c357d54572)
+![meeting-03](https://github.com/fractalxg/portfolio-meetings/assets/147837025/a7baa6ac-cc22-46b0-a96d-476e42f9b964)
+![meeting-04](https://github.com/fractalxg/portfolio-meetings/assets/147837025/fa553364-85c1-4c0f-a531-46fb36d20fea)
+![meeting-05](https://github.com/fractalxg/portfolio-meetings/assets/147837025/a39cf7c1-91e7-4838-8759-3687aa485ca8)
+![meeting-06](https://github.com/fractalxg/portfolio-meetings/assets/147837025/00756006-bf26-4587-9ac9-3d8951e408ce)
+
