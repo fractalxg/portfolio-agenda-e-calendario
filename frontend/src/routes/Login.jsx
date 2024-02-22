@@ -4,6 +4,7 @@ import axios from "axios";
 import Home from "../components/Home";
 import { Link } from "react-router-dom";
 import BubbleGradient from "../components/BubbleGradient.jsx";
+import Loader from "../components/Loader.jsx";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -11,26 +12,28 @@ const Login = () => {
   const [accessToken, setAccessToken] = useState();
   const [message, setMessage] = useState("");
   const [isLogged, setIsLogged] = useState(false);
+  const [loading, setLoading] = useState("");
 
   const userLogin = async () => {
     if (validateUsername() && validatePassword()) {
       try {
+        setLoading("loading");
         const response = await axios.post(import.meta.env.VITE_LOGIN, {
           login: username,
           password: password,
         });
         if (response.data.message) {
           setMessage(response.data.message);
+          setLoading("loaded");
         } else {
           setAccessToken(response.data);
+          setLoading("loaded");
         }
       } catch (error) {
         console.log(error);
       }
     }
   };
-
-  
 
   const validateUsername = () => {
     if (username.length > 0) {
@@ -77,7 +80,15 @@ const Login = () => {
               ></input>
             </div>
 
-            <div className="login-content-message">{message}</div>
+            <div className="login-content-message">
+              {loading === "loading" ? (
+                <Loader />
+              ) : loading === "loaded" ? (
+                <p>{message}</p>
+              ) : (
+                <p></p>
+              )}
+            </div>
 
             <button onClick={() => userLogin()}>Login</button>
 
@@ -91,7 +102,7 @@ const Login = () => {
             </div>
           </div>
         )}
-        {accessToken && <Home accessToken={accessToken} username={username}/>}
+        {accessToken && <Home accessToken={accessToken} username={username} />}
       </div>
     </BubbleGradient>
   );

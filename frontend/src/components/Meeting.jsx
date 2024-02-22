@@ -2,14 +2,15 @@ import "./Meeting.css";
 import { useEffect, useRef, useState } from "react";
 import { IoCopyOutline } from "react-icons/io5";
 import { IoCallSharp } from "react-icons/io5";
-import { FiPhoneCall } from "react-icons/fi";
+import { MdCallEnd } from "react-icons/md";
+import { BiSolidPhoneCall } from "react-icons/bi";
 
 import Peer from "peerjs";
 import io from "socket.io-client";
 
 const socket = io.connect(import.meta.env.VITE_SOCKET_SERVER);
 
-const Meeting = ({ username, setUsername }) => {
+const Meeting = () => {
   const [userId, setUserId] = useState("");
   const [stream, setStream] = useState();
   const [receivingCall, setReceivingCall] = useState(false);
@@ -18,6 +19,7 @@ const Meeting = ({ username, setUsername }) => {
   const [callAccepted, setCallAccepted] = useState(false);
   const [idToCall, setIdToCall] = useState("");
   const [callEnded, setCallEnded] = useState(false);
+  const [onCall, setOnCall] = useState(false);
   const [name, setName] = useState("");
   const myVideo = useRef();
   const userVideo = useRef();
@@ -42,14 +44,11 @@ const Meeting = ({ username, setUsername }) => {
     socket.on("callUser", (data) => {
       setReceivingCall(true);
       setCaller(data.from);
-      //setUsername(data.name);
       setCallerSignal(data.signal);
     });
   }, []);
 
   const callUser = (id) => {
-    console.log("Calling user:", id);
-
     const peer = new Peer({
       initiator: true,
       trickle: false,
@@ -72,6 +71,7 @@ const Meeting = ({ username, setUsername }) => {
 
       call.on("stream", (stream) => {
         userVideo.current.srcObject = stream;
+        setOnCall(true);
       });
     });
 
@@ -96,6 +96,7 @@ const Meeting = ({ username, setUsername }) => {
       call.on("stream", (stream) => {
         userVideo.current.srcObject = stream;
       });
+      setOnCall(true);
     });
 
     connectionRef.current = peer;
@@ -103,6 +104,7 @@ const Meeting = ({ username, setUsername }) => {
 
   const leaveCall = () => {
     setCallEnded(true);
+    setOnCall(false);
     connectionRef.current.destroy();
   };
 
@@ -136,15 +138,22 @@ const Meeting = ({ username, setUsername }) => {
         </div>
 
         <div className="meeting-call-id-content">
-          <input
-            id="filled-basic"
-            placeholder="Paste the Meeting ID to call"
-            value={idToCall}
-            onChange={(e) => setIdToCall(e.target.value)}
-          />
+          {!onCall && (
+            <input
+              placeholder="Paste the Meeting ID to call"
+              value={idToCall}
+              onChange={(e) => setIdToCall(e.target.value)}
+            />
+          )}
           <div className="call-button">
             {callAccepted && !callEnded ? (
-              <button onClick={leaveCall}>End Call</button>
+              <div className="meeting-id-end-call-container">
+                <MdCallEnd
+                  className="meeting-id-end-call-icon"
+                  onClick={leaveCall}
+                />{" "}
+                <label>End Call</label>
+              </div>
             ) : (
               <IoCallSharp
                 className="meeting-call-id-icon"
@@ -153,17 +162,16 @@ const Meeting = ({ username, setUsername }) => {
             )}
           </div>
         </div>
-        {receivingCall && !callAccepted ? ( <div className="meeting-id-caller-content">
-        
-
-            <label>{username} is calling...</label>
-            <FiPhoneCall className="meeting-id-caller-icon" onClick={answerCall}/>
-
-        
-      </div> ) : null}
+        {receivingCall && !callAccepted ? (
+          <div className="meeting-id-caller-content">
+            <label>{caller} is calling...</label>
+            <BiSolidPhoneCall
+              className="meeting-id-caller-icon"
+              onClick={answerCall}
+            />
+          </div>
+        ) : null}
       </div>
-      
-      <div></div>
     </div>
   );
 };

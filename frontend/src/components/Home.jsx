@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Meeting from "./Meeting";
 
-const Home = ({ accessToken, username }) => {
+const Home = ({ accessToken }) => {
   const [isLogged, setIsLogged] = useState(false);
 
   const tokenValidation = async (token) => {
@@ -26,7 +26,7 @@ const Home = ({ accessToken, username }) => {
     tokenValidation(accessToken);
   }, [accessToken]);
 
-  return <div> { isLogged && <Meeting username={username}/> } </div>;
+  return <div> { isLogged && <Meeting /> } </div>;
 };
 
 export default Home;

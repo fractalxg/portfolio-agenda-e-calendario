@@ -36,7 +36,6 @@ io.on("connection", (socket) => {
     io.to(data.userToCall).emit("callUser", {
       signal: data.signalData,
       from: data.from,
-      //name: data.name,
       
     });
     
