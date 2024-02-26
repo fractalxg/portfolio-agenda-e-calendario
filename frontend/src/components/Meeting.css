@@ -161,25 +161,40 @@
   .meeting-video-content video {
     height: 200px;
   }
+  .meeting-video-content{
+    padding-left: 0px;
+  }
   .meeting-container {
     display: grid;
   }
   .meeting-video-container {
     display: flex;
     justify-content: center;
+    padding-left: 0px;
   }
   .meeting-id-container {
+    display: grid;
     margin-top: 30px;
+    justify-content: center;
   }
   .meeting-call-id-content {
     margin: 0px;
     height: 205px;
   }
+
+
 }
 
 @media screen and (max-width: 650px) {
+  .meeting-id-container {
+    display: grid;
+    justify-content: center;
+    width: 380px;
+    margin-left: 17px;
+  }
   .meeting-video-container {
     display: grid;
+    
   }
 
   .meeting-video-container {
