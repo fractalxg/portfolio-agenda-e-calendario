@@ -129,48 +129,50 @@ const Meeting = () => {
         </div>
       </div>
       <div className="meeting-id-container">
-        <div className="meeting-id-content">
-          <label>Your Meeting ID: {userId}</label>
-          <IoCopyOutline
-            className="meeting-id-icon"
-            onClick={() => copyToClipboard(userId)}
-          />
-        </div>
-
-        <div className="meeting-call-id-content">
-          {!onCall && (
-            <input
-              placeholder="Paste the Meeting ID to call"
-              value={idToCall}
-              onChange={(e) => setIdToCall(e.target.value)}
+        <div className="meeting-id-wrapper">
+          <div className="meeting-id-content">
+            <label>Your Meeting ID: {userId}</label>
+            <IoCopyOutline
+              className="meeting-id-icon"
+              onClick={() => copyToClipboard(userId)}
             />
-          )}
-          <div className="call-button">
-            {callAccepted && !callEnded ? (
-              <div className="meeting-id-end-call-container">
-                <MdCallEnd
-                  className="meeting-id-end-call-icon"
-                  onClick={leaveCall}
-                />{" "}
-                <label>End Call</label>
-              </div>
-            ) : (
-              <IoCallSharp
-                className="meeting-call-id-icon"
-                onClick={() => callUser(idToCall)}
+          </div>
+
+          <div className="meeting-call-id-content">
+            {!onCall && (
+              <input
+                placeholder="Paste the Meeting ID to call"
+                value={idToCall}
+                onChange={(e) => setIdToCall(e.target.value)}
               />
             )}
+            <div className="call-button">
+              {callAccepted && !callEnded ? (
+                <div className="meeting-id-end-call-container">
+                  <MdCallEnd
+                    className="meeting-id-end-call-icon"
+                    onClick={leaveCall}
+                  />{" "}
+                  <label>End Call</label>
+                </div>
+              ) : (
+                <IoCallSharp
+                  className="meeting-call-id-icon"
+                  onClick={() => callUser(idToCall)}
+                />
+              )}
+            </div>
           </div>
+          {receivingCall && !callAccepted ? (
+            <div className="meeting-id-caller-content">
+              <label>{caller} is calling...</label>
+              <BiSolidPhoneCall
+                className="meeting-id-caller-icon"
+                onClick={answerCall}
+              />
+            </div>
+          ) : null}
         </div>
-        {receivingCall && !callAccepted ? (
-          <div className="meeting-id-caller-content">
-            <label>{caller} is calling...</label>
-            <BiSolidPhoneCall
-              className="meeting-id-caller-icon"
-              onClick={answerCall}
-            />
-          </div>
-        ) : null}
       </div>
     </div>
   );
