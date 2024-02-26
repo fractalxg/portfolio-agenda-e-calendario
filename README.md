@@ -2,7 +2,7 @@
 Aplicação Web em ReactJS e NodeJS (PostgreSQL, Sequelize, JWT Authentication, WebRTC e Socket.IO) para vídeo chamadas e chat com autenticação prévia dos usuários.
 
 ## Funcionalidades
-* Login.
+* Login/Signup.
 * Live Video/Audio.
 
 ## Screenshots
