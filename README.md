@@ -1,5 +1,3 @@
-(em construção)
-
 ## Descrição
 Aplicação Web em ReactJS e NodeJS (PostgreSQL, Sequelize, JWT Authentication, WebRTC e Socket.IO) para vídeo chamadas e chat com autenticação prévia dos usuários.
 
@@ -10,10 +8,11 @@ Aplicação Web em ReactJS e NodeJS (PostgreSQL, Sequelize, JWT Authentication, 
 ## Screenshots
 * Web
 
-![Meetings - Web](https://github.com/fractalxg/portfolio-meetings/assets/147837025/7d0d3fbc-fdb5-4be3-8d79-1531e27b3eae)
+![Meetings - Web](https://github.com/fractalxg/portfolio-meetings/assets/147837025/b22af601-6093-4f77-900b-875c81bd03be)
 
 * Mobile
 
-![Meetings - Mobile](https://github.com/fractalxg/portfolio-meetings/assets/147837025/c01796d5-4efd-4d14-8147-f0b3aa502a09)
+![Meetings - Mobile](https://github.com/fractalxg/portfolio-meetings/assets/147837025/dc375a99-4a3b-4046-9641-a208b52efc8d)
+
 
 
